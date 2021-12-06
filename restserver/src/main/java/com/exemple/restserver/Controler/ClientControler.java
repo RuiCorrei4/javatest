@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import com.exemple.restserver.Model.Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class ClientControler {
      * 
      */
     @Valid
+    @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping("/SaveClientFinancing")
     public void SaveClient(@RequestBody @Valid Client client){
         try {
@@ -31,10 +33,10 @@ public class ClientControler {
             clientFileMap.put("Telefone", client.getCellphone());
             clientFileMap.put("Valor Mensal", client.getFinancing());
             clientFileMap.put("Numero de meses", client.getA());
-            
             ObjectMapper mapper = new ObjectMapper();
             writer.write(mapper.writeValueAsString(clientFileMap));
             writer.close();
+            System.out.println("i am hear");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

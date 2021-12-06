@@ -1,0 +1,107 @@
+<div class="row">
+    <div *ngIf="loginError" class="alert alert-secondary" role="alert">
+        Campos não corretos
+    </div>
+    <form [formGroup]="financingForm" (ngSubmit)="onSubmitFinancing()" class="col-md-4">
+        <legend>Novo Financiamento</legend>
+        <label for="Financiamneto">Financiamneto</label>
+        <div class="form-group">
+            <select formControlName="Financiamneto" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted2 && Z.Financiamneto.errors }">
+                <option  value="0">Interno</option>
+                <option value="1">Externo</option>
+            </select>
+            <div *ngIf="submitted && Z.Financiamneto.errors " class="invalid-feedback">
+                <div *ngIf="Z.Financiamneto.errors.required">Selecione um tipo de financiamento é obrigatorio</div>
+            </div>
+            
+        </div>
+        <div class="form-group">
+            <label for="Meses">Numero de meses</label>
+            <input type="number" formControlName="Meses" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted2 && Z.Meses.errors }"  max="60" min="12"/>
+            <div *ngIf="submitted2 && Z.Meses.errors" class="invalid-feedback">
+                <div *ngIf="Z.Meses.errors.required">Extenção é obrigatoria</div>
+            </div>
+
+                <div *ngIf="Z.Meses.value >48 && Z.Financiamneto.value==0">valor maximo para financiamento interno de 48 meses</div>
+        </div>
+        <div class="form-group">
+            <label for="ValorDoVaiculo">Valor Do Vaiculo</label>
+            <input type="number" formControlName="ValorDoVaiculo" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted2 && Z.ValorDoVaiculo.errors }" min="1"/>
+            <div *ngIf="submitted2 && Z.ValorDoVaiculo.errors" class="invalid-feedback">
+                <div *ngIf="Z.ValorDoVaiculo.errors.required">Numero de meses é obrigatoria</div>
+            </div>
+        </div>
+        <div class="form-group mt-4">
+            <button [disabled]="loading2 || Z.Meses.value >48 && Z.Financiamneto.value==0"  class="btn btn-primary w-100" >
+                <span *ngIf="loading2" class="spinner-border spinner-border-sm mr-1"></span>
+                Guardar Client
+            </button>
+        </div>
+    </form>
+    <form class="col-md-4" [formGroup]="taxForm" (ngSubmit)="onSubmitTax()">
+        <legend>Inserir Precentagem</legend>
+        <div class="form-group">
+            <label for="Interno">Precentagem para interno</label>
+            <input type="number" formControlName="Interno" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted1 && t.Interno.errors }" min="0" max="100" />
+            <div *ngIf="submitted1 && t.Interno.errors" class="invalid-feedback">
+                <div *ngIf="t.Interno.errors.required">Precentagem para interno é obrigatoria</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Externo">Precentagem para externo</label>
+            <input type="number" formControlName="Externo" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted1 && t.Externo.errors }" min="0" max="100"/>
+            <div *ngIf="submitted1 && t.Externo.errors" class="invalid-feedback">
+                <div *ngIf="t.Externo.errors.required">Precentagem para externo é obrigatoria</div>
+            </div>
+        </div>
+        <div class="form-group mt-4"> <button [disabled]="loading1" type="submit" class="btn btn-primary">
+                <span *ngIf="loading1" class="spinner-border spinner-border-sm mr-1"></span>
+                Guardar Precentagem</button></div>
+
+    </form>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="col-md-4">
+        <legend>Novo Client</legend>
+        <div class="form-group">
+            <label for="Nome">Nome</label>
+            <input type="text" formControlName="Nome" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.Nome.errors }" />
+            <div *ngIf="submitted && f.Nome.errors" class="invalid-feedback">
+                <div *ngIf="f.Nome.errors.required">Nome é obrigatorio</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cellphone">Telefone</label>
+            <input type="tel" formControlName="cellphone" class="form-control" pattern="[0-9]{9}" maxlength="9"
+                [ngClass]="{ 'is-invalid': submitted && f.cellphone.errors }" />
+            <div *ngIf="submitted && f.cellphone.errors" class="invalid-feedback">
+                <div *ngIf="f.cellphone.errors.required">Telefone é obrigatoria</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="months">Numero de meses</label>
+            <label type="text" class="form-control">{{this.Z.Meses.value}}</label>
+        </div>
+        <fieldset disabled>
+            <div class="form-group">
+                <label for="financing">Valor</label>
+                <label type="text" class="form-control">{{result}}</label>
+            </div>
+        </fieldset>
+
+        <div class="form-group mt-4">
+            <button [disabled]="loading" [disabled]="0>=result" class="btn btn-primary w-100">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Guardar Client
+            </button>
+            <div  class="invalid-feedback">
+                <div *ngIf="result>=0">Numero de meses é obrigatoria</div>
+            </div>
+        </div>
+    </form>
+</div>

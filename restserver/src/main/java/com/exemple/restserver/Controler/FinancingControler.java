@@ -10,8 +10,10 @@ import com.exemple.restserver.Model.Financing;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,7 +24,8 @@ public class FinancingControler {
      * @return
      */
     @Valid
-    @GetMapping("/GetFinancingResult")
+    @CrossOrigin(origins = "http://localhost:4200/")
+    @PostMapping("/GetFinancingResult")
     public double finaciamento(@RequestBody @Valid Financing financing) {
         double[] data = new double[2];
         try {
@@ -35,9 +38,8 @@ public class FinancingControler {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
-        if (financing.getA() > 48 && financing.getFinanciamneto() == 0) {
-            return -2;
+            return -1;
+            
         }
         return Math.round(financing.getB() * data[financing.getFinanciamneto()] / financing.getA());
     }

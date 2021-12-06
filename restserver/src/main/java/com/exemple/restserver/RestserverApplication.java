@@ -27,6 +27,17 @@ public class RestserverApplication {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        try {
+            File myObj = new File("Client.json");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
 }

@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import javax.validation.Valid;
 
 import com.exemple.restserver.Model.Financing;
-import com.github.cliftonlabs.json_simple.JsonObject;
-import com.github.cliftonlabs.json_simple.Jsoner;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,12 +26,11 @@ public class FinancingControler {
     public double finaciamento(@RequestBody @Valid Financing financing) {
         double[] data = new double[2];
         try {
-            // create a reader
             Reader reader = Files.newBufferedReader(Paths.get("Config.json"));
-            // create parser
-            JsonObject parser = (JsonObject) Jsoner.deserialize(reader);
-            data[0] =   
-            // close reader
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode parser = objectMapper.readTree(reader);
+            data[0] = parser.path("Interno").asDouble();
+            data[1] = parser.path("Externo").asDouble();
             reader.close();
 
         } catch (Exception ex) {
